@@ -16,6 +16,8 @@ using App.Extensions;
 using Microsoft.AspNetCore.Http;
 using Dominio.Core.User;
 using TestesApp.Config;
+using App.Controllers;
+using System.Security.Claims;
 
 namespace App
 {
@@ -40,11 +42,13 @@ namespace App
             services.AddAutoMapper(typeof(TarefaProfile));
             services.AddScoped<TarefaContexto>();
             services.AddScoped<AppSettings>();
+            services.AddScoped<ClaimsIdentity>();
             services.AddTransient<ITarefaService,TarefaService>();
             services.AddTransient<ITarefaRepository, TarefaRepository>();
             services.AddTransient<INotificador, Notificador>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AppUser>();
+       
 
             //Injeções de dependencia de testes
             //services.ConfigTests();

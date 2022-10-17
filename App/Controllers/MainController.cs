@@ -28,7 +28,6 @@ namespace App.Controllers
                 UsuarioId = usuario.GetUserId();
                 UsuarioAutenticado = true;
             }
-
         }
 
         protected bool OperacaoValida()
@@ -45,9 +44,7 @@ namespace App.Controllers
                     success = true,
                     data = result
                 });
-
             }
-
 
             return BadRequest(new
             {
@@ -77,14 +74,12 @@ namespace App.Controllers
                 var errorMsg = erro.Exception == null ? erro.ErrorMessage : erro.Exception.Message;
                 NotificarErro(errorMsg );
             }
-
         }
 
         protected void NotificarErro(string mensagem)
         {
             _notificador.Handle(new Notificacao(mensagem));
         }
-
 
     }
 

@@ -4,6 +4,7 @@ using Dominio.Core.Models.Tarefas;
 using System.Reflection;
 using System;
 using System.Linq;
+using System.Security.Claims;
 
 namespace App.Profiles
 {
@@ -29,6 +30,8 @@ namespace App.Profiles
         public TarefaProfile()
         {
             CreateMap<Tarefa, TarefaDto>().ReverseMap();
+
         }
     }
+
 }

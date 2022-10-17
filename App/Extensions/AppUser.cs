@@ -74,11 +74,5 @@ namespace App.Extensions
             return claim?.Value;
 
         }
-
-  
-
-
-
-
     }
 }

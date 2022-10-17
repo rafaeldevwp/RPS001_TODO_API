@@ -25,7 +25,6 @@ namespace App.Controllers
             IMapper mapper, INotificador notificador,
             IUser usuario) : base(notificador, usuario)
         {
-
             _tarefaService = tarefaService;
             _mapper = mapper;
             _user = usuario;
@@ -35,11 +34,9 @@ namespace App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-
             var consulta = await _tarefaService.GetAllAsync();
             var tarefa = _mapper.Map<IEnumerable<TarefaDto>>(consulta);
             return CustomResponse(tarefa);
-
         }
 
         // GET api/<TarefaController>/5
@@ -48,8 +45,6 @@ namespace App.Controllers
         {
             return _tarefaService.GetById(id);
         }
-
-
 
         // POST api/<TarefaController>
         [HttpPost]
@@ -65,14 +60,12 @@ namespace App.Controllers
             {
                 return CustomResponse();
             }
-
         }
 
         // PUT api/<TarefaController>/5
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> Put(Guid id, TarefaDto tarefa)
         {
-
             if (tarefa.Id != id) return BadRequest();
 
             if (UsuarioLogado())
@@ -87,7 +80,6 @@ namespace App.Controllers
 
             }
         }
-
 
         // DELETE api/<TarefaController>/5
         [HttpDelete("{id:Guid}")]
@@ -105,10 +97,8 @@ namespace App.Controllers
             else
             {
                 return CustomResponse();
-
             }
         }
-
 
     }
 }

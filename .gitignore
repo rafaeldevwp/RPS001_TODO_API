@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NewRepo
+/RPS001_T
+/App/Extensions/IClam.cs
