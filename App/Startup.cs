@@ -18,6 +18,7 @@ using Dominio.Core.User;
 using TestesApp.Config;
 using App.Controllers;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace App
 {
@@ -48,6 +49,7 @@ namespace App
             services.AddTransient<INotificador, Notificador>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AppUser>();
+            services.AddScoped<AspNetRoleManager<IdentityRole>>();
        
 
             //Injeções de dependencia de testes
