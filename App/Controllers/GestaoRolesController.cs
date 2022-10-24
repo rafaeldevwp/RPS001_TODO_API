@@ -3,7 +3,9 @@ using Dominio.Core.Services.Notificador;
 using Dominio.Core.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,10 +26,13 @@ namespace App.Controllers
 
         // GET: api/<GestaoRolesController>
         [HttpGet]
-        public <IActionResult>> listarRoles()
+        public IActionResult listarRoles()
         {
-            var listaRoles = _roleManage.
-            return await CustomResponse(listaRoles);
+            var listaRoles = _roleManager.Roles.Where(a => a.Name != null).ToList();
+            if (!ObjetoValido(listaRoles))
+                return CustomResponse();
+
+            return CustomResponse(listaRoles);
 
         }
 
@@ -35,7 +40,7 @@ namespace App.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ObterRolePorId(string id)
         {
-           var role = await _roleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id);
             if (!ObjetoValido(role))
                 return CustomResponse();
 
@@ -60,14 +65,29 @@ namespace App.Controllers
 
         // PUT api/<GestaoRolesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> AtualizarRole(string id, string value)
         {
+            if (!ObjetoValido(id))
+                CustomResponse();
+
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (!ObjetoValido(role))
+                CustomResponse();
+
+            await _roleManager.UpdateAsync(role);
+            return CustomResponse(role);
         }
 
         // DELETE api/<GestaoRolesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(string id)
         {
+            if (!ObjetoValido(id))
+                CustomResponse();
+
+            var role = await _roleManager.FindByIdAsync(id);
+            await _roleManager.DeleteAsync(role);
         }
     }
 }
