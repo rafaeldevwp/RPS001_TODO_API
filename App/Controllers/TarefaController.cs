@@ -1,4 +1,5 @@
 ﻿using App.DTO;
+using App.Extensions;
 using AutoMapper;
 using Dominio.Core.Models.Tarefas;
 using Dominio.Core.Services.Notificador;
@@ -19,7 +20,7 @@ namespace App.Controllers
         protected readonly ITarefaService _tarefaService;
         protected readonly IMapper _mapper;
         protected readonly IUser _user;
-    
+
 
         public TarefaController(ITarefaService tarefaService,
             IMapper mapper, INotificador notificador,
@@ -48,7 +49,6 @@ namespace App.Controllers
 
         // POST api/<TarefaController>
         [HttpPost]
-        // [ClaimsAuthorize("Gerencia", "Adicionar")]
         public async Task<IActionResult> Post(Tarefa tarefa)
         {
             if (UsuarioLogado())
@@ -74,9 +74,10 @@ namespace App.Controllers
                 await _tarefaService.UpdateAsync(tarefaupdate);
                 return CustomResponse();
             }
-            else { 
+            else
+            {
 
-            return CustomResponse();
+                return CustomResponse();
 
             }
         }

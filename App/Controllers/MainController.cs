@@ -81,6 +81,15 @@ namespace App.Controllers
             _notificador.Handle(new Notificacao(mensagem));
         }
 
+        protected bool ObjetoValido(object objeto)
+        {
+            if (objeto != null)
+                return true;
+
+            NotificarErro("O objeto não está preenchido favor verificar a operação");
+            return false;
+        }
+
     }
 
 

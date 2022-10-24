@@ -1,12 +1,11 @@
 ﻿using App.DTO;
+using App.Extensions;
 using AutoMapper;
-using Dominio.Core.Models.Usuarios;
 using Dominio.Core.Services.Notificador;
 using Dominio.Core.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -37,21 +36,7 @@ namespace App.Controllers
         }
 
 
-        [HttpPost("RegistrarRole", Name = "RegistrarRole")]
-        public async Task<IActionResult> RegistrarRole(ParametrosAtribuirPerfil parametros)
-        {
-            if (!ObjetoValido(parametros))
-                return CustomResponse();
-
-            var role = new IdentityRole
-            {
-                Name = parametros.roleName
-            };
-
-            await _roleManager.CreateAsync(role);
-            return CustomResponse(role);
-        }
-
+      
 
         [HttpPost("RegistrarClaim", Name = "RegistrarClaim")]
         public async Task<IActionResult> RegistrarClaim(ParametrosAtribuirPerfil parametros)
@@ -72,19 +57,17 @@ namespace App.Controllers
         }
 
         [HttpPost("AtribuirRoleUsuario", Name = "AtribuirRoleUsuario")]
+        [RoleAuthorize("Gerencia")]
         public async Task<IActionResult> AtribuirRoleUsuario(ParametrosAtribuirPerfil parametros)
         {
             if (!ObjetoValido(parametros))
                 return CustomResponse();
 
-            var usuarioRegistrado = await ObterUsuarioPorId(parametros.UsuarioId);
             var roleRegistrada = await ObterRolePorId(parametros.roleName);
-
-            await _userManager.AddToRoleAsync(usuarioRegistrado, roleRegistrada.ToString());
+            await _userManager.AddToRoleAsync(await ObterUsuarioPorId(parametros.UsuarioId), roleRegistrada.ToString());
 
             return CustomResponse();
         }
-
 
         private async Task<IdentityUser> ObterUsuarioPorId(string userId)
         {
@@ -100,15 +83,6 @@ namespace App.Controllers
                 NotificarErro("O valores da Claim não foi informado");
 
             return new Claim(tipo, valor);
-        }
-
-        private bool ObjetoValido(object objeto)
-        {
-            if (objeto != null)
-                return true;
-
-            NotificarErro("O objeto não está preenchido favor verificar a operação");
-            return false;
         }
 
         private async Task<IdentityRole> ObterRolePorId(string roleName)
