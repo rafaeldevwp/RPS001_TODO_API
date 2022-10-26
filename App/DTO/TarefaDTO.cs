@@ -14,9 +14,10 @@ namespace App.DTO
         [Display(Name = "Descrição da tarefa")]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public string Descricao { get; set; }
-        public string UsuarioId { get; set; }
 
         [Display(Name = "Status da tarefa")]
         public int Status { get; set; }
+
+        public string UsuarioId { get; set; }
     }
 }

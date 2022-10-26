@@ -8,6 +8,8 @@ using Dominio.Core.User;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -36,8 +38,15 @@ namespace App.Controllers
         public async Task<IActionResult> GetAll()
         {
             var consulta = await _tarefaService.GetAllAsync();
-            var tarefa = _mapper.Map<IEnumerable<TarefaDto>>(consulta);
+
+            if (UsuarioLogado()) { 
+            var tarefa = _mapper.Map<IEnumerable<TarefaDto>>(consulta).Where(x => Guid.Parse(x.UsuarioId) == _user.GetUserId());
             return CustomResponse(tarefa);
+            }
+            else
+            {
+                return CustomResponse();
+            }
         }
 
         // GET api/<TarefaController>/5
@@ -76,7 +85,6 @@ namespace App.Controllers
             }
             else
             {
-
                 return CustomResponse();
 
             }

@@ -55,9 +55,15 @@ namespace App.Controllers
 
         protected bool UsuarioLogado()
         {
-            if (!UsuarioAutenticado) NotificarErro("Usuário deve estar logado para executar a operação");
-            return false;
-
+            if (UsuarioAutenticado) 
+            return true;
+            
+            else
+            {
+                NotificarErro("Usuário deve estar logado para executar a operação");
+                return false;
+            }
+           
         }
 
         protected ActionResult CustomResponse(ModelStateDictionary modelState)
